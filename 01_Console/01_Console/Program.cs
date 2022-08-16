@@ -14,7 +14,7 @@ namespace _01_Console
             //Console.ReadKey();                  // 키 입력 대기하는 코드
             //8/16
             //자기 이름 출력하기
-            Console.WriteLine("제이름은 최진석 입니다"); 
+            Console.WriteLine("제이름은 최진석 입니다"); //제이름출력하기
             Console.ReadKey();
         }
     }
