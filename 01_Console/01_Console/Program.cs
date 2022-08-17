@@ -51,36 +51,60 @@ namespace _01_Console
             bool b1 = true;
             bool b2 = false;
 
-            int level = 1;
-            int hp = 10;
-            float exp = 0.9f;   //1은 100퍼 0.9는 90퍼
-            string name = "너굴맨";
+            //int level = 1;
+            //int hp = 10;
+            //float exp = 0.9f;   //1은 100퍼 0.9는 90퍼
+            //string name = "너굴맨";
 
-            //실습 : 아래의 문장을 출력하는 코드를 작성하라
-            //너굴맨의 레벨은 1이고 HP는 10이고 exp는 0.9다
-            string result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다\n";
-            Console.WriteLine(result);
-            //Console.WriteLine($"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다");
-            Console.WriteLine($"이름 : {name}\n레벨 : {level}\nHP : {hp}\nexp : {exp}\n\n");
+            ////실습 : 아래의 문장을 출력하는 코드를 작성하라
+            ////너굴맨의 레벨은 1이고 HP는 10이고 exp는 0.9다
+            //string result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다\n";
+            //Console.WriteLine(result);
+            ////Console.WriteLine($"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다");
+            //Console.WriteLine($"이름 : {name}\n레벨 : {level}\nHP : {hp}\nexp : {exp}\n\n");
+
+            ////Console.Write("이름을 입력하세요 : ");
+            ////name = Console.ReadLine();
+            ////Console.Write($"{name}의 레벨을 입력하세요 : ");
+            ////string temp = Console.ReadLine();
+            ////level = int.Parse(temp);    // string을 int로 변경해주는 코드(숫자로 바꿀 수 있을 때만 가능). 간단하지만 위험함
+            ////level = Convert.ToInt32(temp);  // string을 int로 변경해주는 코드(숫자로 바꿀 수 있을 때만 가능) 더 세세하게 변경할 수 있다
+            ////int.TryParse(temp, out level);  //string을 int로 변경해주는 코드(숫자로 바꿀 수 없으면 0으로 만든다.)
+            ////result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다\n";
+            ////Console.WriteLine(result);
+
+
+            //exp = 0.959595f;
+            //// 너굴맨의 레벨은 1이고 HP는 10이고 exp는 90%다.
+            //result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp*100:F3}%다\n"; //exp*100을 소수점 3자리까지 찍는 코드
+            //Console.WriteLine(result);
+
+            //실습 : 이름, 레벨, hp, 경험치를 각각 입력 받고 출력하는 코드 만들기.
+
+            string result;
+            string name;
+            int level;
+            int hp;
+            float exp;
 
             Console.Write("이름을 입력하세요 : ");
             name = Console.ReadLine();
+
+            string temp;
             Console.Write($"{name}의 레벨을 입력하세요 : ");
-            string temp = Console.ReadLine();
-            //level = int.Parse(temp);    // string을 int로 변경해주는 코드(숫자로 바꿀 수 있을 때만 가능). 간단하지만 위험함
-            //level = Convert.ToInt32(temp);  // string을 int로 변경해주는 코드(숫자로 바꿀 수 있을 때만 가능) 더 세세하게 변경할 수 있다
-            int.TryParse(temp, out level);  //string을 int로 변경해주는 코드(숫자로 바꿀 수 없으면 0으로 만든다.)
-            result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp}다\n";
+            temp = Console.ReadLine();
+            int.TryParse(temp, out level);
+
+            Console.Write($"{name}의 HP를입력하세요 : ");
+            temp = Console.ReadLine();
+            int.TryParse(temp, out hp);
+
+            Console.Write($"{name}의 경험치를 입력하세요 : ");
+            temp = Console.ReadLine();
+            float.TryParse(temp, out exp);
+
+            result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp*100:F3}%다\n";
             Console.WriteLine(result);
-
-
-            exp = 0.959595f;
-            // 너굴맨의 레벨은 1이고 HP는 10이고 exp는 90%다.
-            result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp*100:F3}%다\n"; //exp*100을 소수점 3자리까지 찍는 코드
-            Console.WriteLine(result);
-
-            //이름, 레벨, hp, 경험치를 각각 입력 받고 출력하는 코드 만들기.
-
 
             Console.ReadKey();              // 키 입력 대기하는 코드
         }
