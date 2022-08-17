@@ -79,6 +79,8 @@ namespace _01_Console
             result = $"{name}의 레벨은 {level}이고 HP는 {hp}이고 exp는 {exp*100:F3}%다\n"; //exp*100을 소수점 3자리까지 찍는 코드
             Console.WriteLine(result);
 
+            //이름, 레벨, hp, 경험치를 각각 입력 받고 출력하는 코드 만들기.
+
 
             Console.ReadKey();              // 키 입력 대기하는 코드
         }
