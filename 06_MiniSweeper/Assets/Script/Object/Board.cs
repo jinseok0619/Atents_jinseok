@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,6 +58,13 @@ public class Board : MonoBehaviour
     /// </summary>
     Cell currentCell = null;
 
+    private int openCellCount = 0;
+    private int foundMineCount = 0;
+
+    // 델리게이트 ----------------------------------------------------------------------------------
+    public Action onBoardPress;
+    public Action onBoardRelease;
+
     // 프로퍼티 ------------------------------------------------------------------------------------
 
     /// <summary>
@@ -86,6 +94,9 @@ public class Board : MonoBehaviour
             currentCell?.OnEnterCell(); // 셀에 마우스가 들어가는 처리
         }
     }
+
+    public int OpenCellCount => openCellCount;
+    public int FoundMineCount => foundMineCount;
 
     // 함수 ---------------------------------------------------------------------------------------
 
@@ -143,7 +154,13 @@ public class Board : MonoBehaviour
                 cell.ID = y * width + x;                                    // ID 설정(ID를 통해 위치도 확인 가능)
                 cell.Board = this;                                          // 보드 설정
                 cell.onFlagUse += gameManager.DecreaseFlagCount;
+                cell.onFlagUse += gameManager.FinishPlayerAction;
                 cell.onFlagReturn += gameManager.IncreaseFlagCount;
+                cell.onFlagReturn += gameManager.FinishPlayerAction;        // 존재가 애매함(실질적인 의미없음)
+                cell.onOpen += () => openCellCount++;
+                cell.onOpen += gameManager.FinishPlayerAction;
+                cell.onMineFound += () => foundMineCount++;
+                cell.onMineFoundCancel += () => foundMineCount--;
                 cellObj.name = $"Cell_{cell.ID}_({x},{y})";                 // 오브젝트 이름 지정
                 cell.transform.position = basePos + offset + new Vector3(x * Distance, -y * Distance);  // 적절한 위치에 배치
                 cells[cell.ID] = cell;                                      // cells 배열에 저장
@@ -177,6 +194,9 @@ public class Board : MonoBehaviour
         {
             cells[ids[i]].SetMine();
         }
+
+        openCellCount = 0;  // 모든 셀이 다 닫혀있음.
+        foundMineCount = 0; // 찾은 지뢰 갯수 초기하
     }
 
     /// <summary>
@@ -188,7 +208,7 @@ public class Board : MonoBehaviour
         int count = source.Length - 1;
         for (int i = 0; i < count; i++)
         {
-            int randomIndex = Random.Range(0, count + 1 - i);
+            int randomIndex = UnityEngine.Random.Range(0, count + 1 - i);
             int lastIndex = count - i;
             (source[randomIndex], source[lastIndex]) = (source[lastIndex], source[randomIndex]);    // swap 처리
         }
@@ -326,6 +346,8 @@ public class Board : MonoBehaviour
             GameManager.Inst.GameStart();                           // 매번 Play 상태로 변경 시도(Ready 상태일 때만 진행됨)
             Cell target = cells[GridToID(grid.x, grid.y)];          // 해당 셀 가져오기
             target.CellPress();
+
+            onBoardPress?.Invoke();
         }
     }
 
@@ -343,6 +365,7 @@ public class Board : MonoBehaviour
             Cell target = cells[GridToID(grid.x, grid.y)];          // 해당 셀 가져오기
             target.CellRelease();
         }
+        onBoardRelease?.Invoke();
     }
 
     /// <summary>

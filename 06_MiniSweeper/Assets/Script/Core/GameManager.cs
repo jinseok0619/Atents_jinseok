@@ -11,39 +11,38 @@ public class GameManager : Singleton<GameManager>
     enum GameState
     {
         Ready = 0,  // 게임 시작전(첫번째 셀이 안열린 상황)
-        Play,       // 게임 진행중
+        Play,       // 게임 진행 중
         GameClear,  // 모든 지뢰를 찾았을 때
         GameOver    // 지뢰가 있는 셀을 열었을 때
     }
-    
+
     GameState state = GameState.Ready;
 
     /// <summary>
-    /// 게임이 진행중인지 확인하는 프로퍼티
+    /// 게임이 진행중인지 확인하는 프로퍼티.
     /// </summary>
     public bool IsPlaying => state == GameState.Play;
 
     /// <summary>
-    /// Play 상태로 들어갔을 때 실행될 델리게이트
+    /// Play 상태로 들어갔을 때 실행될 델리게이트.
     /// </summary>
     public Action onGameStart;
 
     /// <summary>
-    /// 게임이 재시작될 때 실행될 델리게이트(리셋버튼 눌렀을 때 실행, 보드 초기화 될 때, Ready 상태로 변경)
+    /// 게임이 재시작될 때 실행될 델리게이트(리셋버튼 눌렀을 때 실행. 보드 초기화 될 때. Ready 상태로 변경)
     /// </summary>
     public Action onGameReset;
 
     /// <summary>
-    /// GameClear 상태로 들어갔을 때 실행됭 델리게이트
+    /// GameClear 상태로 들어갔을 때 실행될 델리게이트.
     /// </summary>
     public Action onGameClear;
 
     /// <summary>
-    /// GameOver 상태로 들어갔을 때 실행될 델리게이트
+    /// GameOver 상태로 들어갔을 때 실행될 델리게이트.
     /// </summary>
     public Action onGameOver;
 
-    
 
     // 깃발 갯수 관련 ------------------------------------------------------------------------------
     private int flagCount = 0;
@@ -92,7 +91,7 @@ public class GameManager : Singleton<GameManager>
 
     public void GameStart()
     {
-        if(state == GameState.Ready)
+        if (state == GameState.Ready)
         {
             state = GameState.Play;
             onGameStart?.Invoke();
@@ -112,7 +111,7 @@ public class GameManager : Singleton<GameManager>
     {
         state = GameState.GameClear;
         onGameClear?.Invoke();
-        Debug.Log("GameClear 상태");
+        Debug.Log("Clear 상태");
     }
 
     public void GameOver()
@@ -122,8 +121,25 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("GameOver 상태");
     }
 
-#if TEST_CODE
+    public void FinishPlayerAction()
+    {
+        /// 클리어 조건
+        /// -깃발을 지뢰 위치에 다 설치하고 나머지 셀을 모두 연다.
 
+        /// 해야할 일
+        /// 클리어 조건이 만족되었으면 GameClear() 실행
+
+        //FlagCount;
+        //Debug.Log($"OpenCellCount : {Board.OpenCellCount}");
+        //Debug.Log($"FoundMineCount : {Board.FoundMineCount}");
+
+        if (flagCount == 0 && ((Board.OpenCellCount + Board.FoundMineCount) == boardWidth * boardHeight))
+        {
+            GameClear();
+        }
+    }
+
+#if TEST_CODE
     public void TestFlag_Increase()
     {
         FlagCount++;

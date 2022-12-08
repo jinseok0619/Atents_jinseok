@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -419,7 +419,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Reset_SunGlass
+      name: Reset_GameClear
       rect:
         serializedVersion: 2
         x: 75
@@ -807,6 +807,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      Reset_GameClear: -1605700773
       Cell_Close_press: -68276237
       Number_5: -224336166
       Cell_Open_MineCount_6: -189925871
@@ -824,9 +825,8 @@ TextureImporter:
       Number_3: -1784497282
       Number_0: 335276189
       Cell_Open_Mine: -1400542554
-      Reset_SunGlass: -1605700773
-      Cell_Close: -365855673
       Cell_Open_MineCount_2: 1389941537
+      Cell_Close: -365855673
       Cell_Open_MineCount_8: -1284487018
       Number_7: 1102378581
       Number_minus: 555574539
