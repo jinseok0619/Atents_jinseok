@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f00fdbbf872fd4f831e3f45cec5779, type: 3}
+  m_Name: 09_SilverSword
+  m_EditorClassIdentifier: 
+  id: 9
+  itemName: "\uC740\uAC80"
+  modelPrefab: {fileID: 2026991616744339901, guid: 5105551a3aeb45247a54c699f974cca7, type: 3}
+  itemIcon: {fileID: 21300000, guid: 95052c6b62fb3de4695beaa99f842ac2, type: 3}
+  value: 700
+  maxStackCount: 1
+  itemDescription: "\uC740\uC73C\uB85C \uB9CC\uB4E0 \uD55C\uC190\uAC80\uC774\uB2E4.\\n
+    \uACF5\uACA9\uB825 : 60"
+  equipPrefab: {fileID: 3832907126045494399, guid: 43e479a1299e7b84b8ea0675575fce20, type: 3}
+  attackPower: 60

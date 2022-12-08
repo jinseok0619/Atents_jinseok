@@ -6,48 +6,77 @@ using System.Threading.Tasks;
 
 namespace _01_Console
 {
-    public class Orc    : Character
+    public class Orc : Character
     {
-        int mp = 100;
-        int maxMp = 100;
+        int rage = 0;               // 분노 변수 추가
+        const int MaxRage = 100;    // 최대 분노, 상수로 설정. 시작부터 끝까지 값이 변하지 않는다.
+        bool berserker = false;     // 버서커 상태 표시용 berserker 모드는 기본적으로  false로 지정
 
-        public Orc()  // 상속받은 부모의 생성자도 같이 실행
+        /// <summary>
+        /// 이름을 입력받는 생성자(생상자는 상속이 안되기 때문에 항상 새로 만들어 줘야 한다.)
+        /// </summary>
+        /// <param name="newName">새 이름</param>
+        public Orc(string newName) : base(newName)  // Character(string newName) 실행됨
+                                                    // base가 없었다면 Character()가실행 있으면 public Character(string newName)실헹
         {
-            //GenerateStatus();
         }
 
+        /// <summary>
+        /// 스테이터스 생성
+        /// </summary>
         public override void GenerateStatus()
         {
-            base.GenerateStatus();  // Character의 GenerateStatus 함수 실행
-            maxMp = rand.Next() % 100;  // 추가한 변수만 추가로 처리
-            mp = maxMp;
+            base.GenerateStatus();
+            strenth = rand.Next(30) + 1;    // 오크라 힘을 추가로 더함 
+            rage = 0;   //시작 분노는 0
         }
 
-        public override void TestPrintStatus()
+        /// <summary>
+        /// 데미지 처리 함수
+        /// </summary>
+        /// <param name="damage">받은 데미지</param>
+        public override void TakeDamage(int damage)
+        {
+            // 맞을 때마다 최대 분노의 1/10 증가 + 데미지 10당 1씩 증가
+            rage += (int)(MaxRage * 0.1f + damage * 0.1f);
+            if (rage >= MaxRage)    //분노가 최대분노를 넘어서면
+            {
+                BerserkerMode(true);    // 버서커 모드로 설정
+            }
+            base.TakeDamage(damage);    // 나에게 데미지 전달
+        }
+
+        /// <summary>
+        /// 스테이터스 창 출력
+        /// </summary>
+        public override void PrintStatus()
         {
             Console.WriteLine("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-            Console.WriteLine($"┃ 이름\t:{oname,10}             ┃ ");
-            Console.WriteLine($"┃ HP\t:{hp,4} / {maxHP,4}               ┃ ");
-            Console.WriteLine($"┃ MP\t:{mp,4} / {maxMp,4}               ┃ ");
-            Console.WriteLine($"┃ 힘\t:{strenth,3}                       ┃ ");
-            Console.WriteLine($"┃ 민첩\t:{dexterity,3}                       ┃ ");
-            Console.WriteLine($"┃ 지능\t:{intellegence,3}                       ┃ ");
+            Console.WriteLine($"┃ 이름\t:\t{name}");
+            Console.WriteLine($"┃ HP\t:\t{hp,4} / {maxHP,4}");
+            Console.WriteLine($"┃ Rage\t:\t{rage,4} / {MaxRage,4}");
+            Console.WriteLine($"┃ 힘\t:\t{strenth,2}");
+            Console.WriteLine($"┃ 민첩\t:\t{dexterity,2}");
+            Console.WriteLine($"┃ 지능\t:\t{intellegence,2}");
             Console.WriteLine("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
         }
 
-        public override void Attack(Character target)
+        /// <summary>
+        /// 버서커 모드 설정
+        /// </summary>
+        /// <param name="on">true면 버서커모드, false면 일반 모드</param>
+        void BerserkerMode(bool on)
         {
-            int damage = strenth;
-
-            //rand.NextDouble();  // 0.0 ~ 1.0
-            if (rand.NextDouble() < 0.3f)   // 이 조건이 참이면 30% 안쪽으로 들어왔다.
+            berserker = on;     //변수에 세팅해서 표시
+            if (berserker)
             {
-                damage *= 2;    // damage = damage * 2;
-                Console.WriteLine("크리티컬 히트!");
+                strenth *= 2;   // 버서커 모드면 힘이 두배
             }
-
-            Console.WriteLine($"{name}이 {target.Name}에게 공격을 합니다.(공격력 : {damage})");
-            target.TakeDamage(damage);
+            else
+            {
+                //strenth /= 2;
+                strenth = strenth >> 1; // 일반 모드로 돌아올 때 힘을 절반으로 줄이기
+            }
         }
     }
 }
