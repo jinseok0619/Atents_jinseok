@@ -66,6 +66,35 @@ public class GameManager : Singleton<GameManager>
 
     public Board Board => board;
 
+    // UI 관련 ------------------------------------------------------------------------------------
+    
+    /// <summary>
+    /// 주의) 반드시 프로퍼티로만 사용할 것
+    /// 플레이어가 이번 판에서 했던 행동 횟수
+    /// </summary>
+    private int actionCount = 0;
+
+    /// <summary>
+    /// 플레이어가 이번 판에서 했던 행동 횟수용 프로퍼티
+    /// </summary>
+    private int ActionCount
+    {
+        get => actionCount;
+        set
+        {
+            if(actionCount != value)
+            {
+                actionCount = value;
+                onActionCountChange?.Invoke(actionCount);
+                //Debug.Log($"Action Count : {actionCount}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// 행동 홧수가 변경될 때 실행될 델리게이트
+    /// </summary>
+    public Action<int> onActionCountChange;
 
 
     // 함수 ---------------------------------------------------------------------------------------
@@ -74,6 +103,7 @@ public class GameManager : Singleton<GameManager>
         base.Initialize();
 
         FlagCount = mineCount;
+        ActionCount = 0;
 
         board = FindObjectOfType<Board>();
         board.Initialize(boardWidth, boardHeight, mineCount);
@@ -103,6 +133,7 @@ public class GameManager : Singleton<GameManager>
     {
         state = GameState.Ready;
         FlagCount = mineCount;
+        ActionCount = 0;
         onGameReset?.Invoke();
         Debug.Log("Ready 상태");
     }
@@ -123,16 +154,10 @@ public class GameManager : Singleton<GameManager>
 
     public void FinishPlayerAction()
     {
-        /// 클리어 조건
-        /// -깃발을 지뢰 위치에 다 설치하고 나머지 셀을 모두 연다.
+        ActionCount++;
 
-        /// 해야할 일
-        /// 클리어 조건이 만족되었으면 GameClear() 실행
-
-        //FlagCount;
-        //Debug.Log($"OpenCellCount : {Board.OpenCellCount}");
-        //Debug.Log($"FoundMineCount : {Board.FoundMineCount}");
-
+        // 클리어 조건을 만족시키는지 확인
+        // Board.FoundMineCount == (boardWidth * boardHeight - Board.OpenCellCount)
         if (flagCount == 0 && ((Board.OpenCellCount + Board.FoundMineCount) == boardWidth * boardHeight))
         {
             GameClear();
