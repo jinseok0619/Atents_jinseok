@@ -112,6 +112,8 @@ public class Board : MonoBehaviour
     /// </summary>
     public int FoundMineCount => foundMineCount;
 
+
+
     // 함수 ---------------------------------------------------------------------------------------
 
     private void Awake()
